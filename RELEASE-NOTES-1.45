@@ -1,0 +1,286 @@
+= MediaWiki 1.45 =
+
+== MediaWiki 1.45.0-PRERELEASE ==
+
+THIS IS NOT A RELEASE YET
+
+MediaWiki 1.45 is an alpha-quality development branch, and is not recommended
+for use in production.
+
+== Upgrading notes for 1.45 ==
+Don't forget to always back up your database before upgrading!
+
+See the file UPGRADE for more detailed per-version upgrade instructions from the
+oldest supported upgrading version, MediaWiki 1.35.
+
+Some specific notes for MediaWiki 1.45 upgrades are below:
+
+* …
+
+For notes on 1.44.x and older releases, see HISTORY.
+
+=== Configuration changes for system administrators in 1.45 ===
+
+* …
+
+==== New configuration ====
+
+* …
+
+==== Changed configuration ====
+
+* …
+
+==== Removed configuration ====
+
+* (T13555, T371756) $wgParserEnableLegacyHeadingDOM was removed.
+  The skin option 'supportsMwHeading' was likewise removed.
+  New heading markup is now always enabled, on all skins.
+  More information: https://www.mediawiki.org/wiki/Heading_HTML_changes
+* (T387856) $wgEnotifImpersonal and $wgEnotifMaxRecips, deprecated in 1.44,
+  are no longer honoured.
+* (T394054) $wgParserEnableLegacyMediaDOM and $wgUseContentMediaStyles
+  were removed.  New media markup is now always enabled.  More information:
+  https://www.mediawiki.org/wiki/Parsoid/Parser_Unification/Media_structure/FAQ
+* $wgPageLinksSchemaMigrationStage has been removed.
+* …
+
+=== New user-facing features in 1.45 ===
+
+* (T219543) [[Special:SpecialPages]], the index of special pages, has been re-
+  designed to be clearer, filterable/sortable, and mobile-friendly. Restricted
+  special pages, previously shown in bold, are now explicitly labelled as such,
+  with the row highlighted in yellow.
+* (T118132) After using [[Special:MergeHistory]] to merge page histories,
+  [[Special:Log]] will show entries for both the source and the destination
+  page. Previously, the merge was only logged for the source page.
+* …
+
+=== New features for sysadmins in 1.45 ===
+
+* …
+
+=== New developer features in 1.45 ===
+
+* The SpecialUserRightsChangeableGroupsHook hook was added.
+* The UserLinkRendererUserPostRenderLink hook was added.
+* The LocalUserOptionsStoreSave hook was added.
+* The User::getConfirmationToken(), User::getConfirmationTokenUrl() and
+  User::getInvalidationTokenUrl() methods were added.
+* The User::getTokenUrl() method was made public.
+* The SpecialLogResolveLogType hook was added.
+* …
+
+=== External library changes in 1.45 ===
+
+==== New external libraries ====
+
+* …
+
+===== New development-only external libraries =====
+
+* …
+
+==== Changed external libraries ====
+
+* Updated codex, codex-design-tokens and codex-icons
+  from v1.23.0 to v2.2.0.
+* Updated psr/container from 1.1.2 to 2.0.2.
+* Updated wikimedia/request-timeout from 2.0.2 to 3.0.0.
+* Updated wikimedia/shellbox from 4.2.0 to 4.3.0.
+* Updated symfony/yaml from 5.4.45 to 6.4.21.
+* Updated OOUI from v0.51.7 to v0.52.0.
+* …
+
+===== Changed development-only external libraries =====
+
+* Updated eslint-config-wikimedia from 0.29.1 to 0.30.0.
+* …
+
+==== Removed external libraries ====
+
+* …
+
+=== Bug fixes in 1.45 ===
+
+* …
+
+=== Action API changes in 1.45 ===
+* (T396049) The list of domains supported by the upload-by-URL feature is now
+  exposed via meta=siteinfo.
+* …
+
+=== Action API internal changes in 1.45 ===
+
+* …
+
+=== Languages updated in 1.45 ===
+MediaWiki supports over 350 languages. Many localisations are updated regularly.
+Below only new and removed languages are listed, as well as changes to languages
+because of Phabricator reports.
+
+* (T314476) Make Perso-Arabic the primary writing system for Kashmiri,
+  under the language code "ks". "ks-arab" and "ks-deva" are preserved for
+  backwards compatibility. "ks-deva" may be removed in a future release.
+* (T395223) Added language support for Yucatec Maya (yua).
+* (T397435) Added language support for Dolgan (dlg).
+* …
+
+=== Breaking changes in 1.45 ===
+
+* SessionProvider::setLogger(), setConfig(), setManager(), setHookContainer()
+  methods deprecated in 1.37, have been removed.
+* SqlBagOStuff::expireAll() and ::deleteAll(), deprecated in 1.41 have been
+  removed.
+* (T376295) The ability to use raw HTML messages for the copyright footer has
+  been removed. The messages 'copyright' and 'history_copyright', the hook
+  'SkinCopyrightFooter', and the config option $wgAllowRawHtmlCopyrightMessages
+  have all been removed. Instead use the messages 'copyright-footer' and
+  'copyright-footer-history', and the hook 'SkinCopyrightFooterMessage'.
+* The SiteConfiguration::extractGlobalSetting method, not used outside of
+  SiteConfiguration class, is now private.
+* RL\Module::getDeprecationInformation() deprecated in 1.41, now unused, has
+  been removed.
+* AuthManager::forcePrimaryAuthenticationProviders(), deprecated in 1.43 has
+  been removed.
+* User::whoIs() and ::whoIsReal(), deprecated since 1.43, have been removed.
+* Abstract function AuthenticationRequestTestCase::provideLoadFromSubmission is
+  now static and has to be declared as static function when implemented.
+* Abstract function HookRunnerTestBase::provideHookRunners is
+  now static and has to be declared as static function when implemented.
+* ExtensionJsonTestBase::$extensionJsonPath and ::provideHookHandlerNames()
+  now static and have to be declared as static property or function when used.
+* The following LogPager methods are deprecated without replacement:
+  getType, getPage, getPattern, getYear, getMonth, getDay, getTagFilter,
+  getTagInvert, getAction.
+* The LogEventsListShowLogExtract $page parameter is now an array.
+* Command::whitelistPaths, deprecated in 1.36, has been removed.
+* ::setIndexAliases() method in the following classes and interfaces have been
+  removed without deprecation as it was completely unused:
+ - Database
+ - ILBFactory and LBFactory
+ - ILoadBalancerForOwner
+ - LoadBalancer
+ - ISQLPlatform
+* Some undocumented behaviors of ParserOptions::setInterfaceMessage() have
+  been moved to a new method ParserOptions::setIsMessage(). (T393601, T395589)
+* The ParserOutput constructor now enforces strict type hints on its arguments.
+  Passing null as the $languageLinks parameter was deprecated in 1.43.
+* ParserOutput::addTemplate() now throws an InvalidArgumentException if an
+  interwiki link is provided; this was deprecated in 1.42.
+* ParserOutput::setPageProperty() now enforces a strict type hint of 'string'
+  on its $value parameter; non-string values were deprecated in 1.42.
+* The following methods in ParserOutput have been removed:
+  - ::getTimeSinceStart(), deprecated in 1.42
+  - ::__get()/::__set(), deprecated in 1.38
+    Dynamic properties continue to emit warnings in PHP >= 8.2.
+* The ParserOutputFlags class has been converted to an enumeration.  Any calls
+  to ParserOutputFlags::cases() should be converted to
+  ParserOutputFlags::values() if you wish to still obtain a list of strings.
+* The ParserOutputStringSets class has been converted to an
+  enumeration.  Any calls to ParserOutputStringSets::cases() should be
+  converted to ParserOutputStringSets::values() if you wish to still
+  obtain a list of strings.
+* The parameter $default of WebRequest::getRawVal(), deprecated since 1.43,
+  is now removed.
+* The UserNamePrefixSearch class, deprecated in 1.41 has been removed,
+  the MediaWiki\User\UserNamePrefixSearch service should be used instead.
+* …
+
+=== Deprecations in 1.45 ===
+
+* UserNameUtils::getTempPlaceholder() has been deprecated and now emits
+  deprecation warnings. Use TempUserConfig::getPlaceholderName() instead.
+* MediaWikiServices::disableStorageBackend(), deprecated in 1.40 now
+  emits deprecation warnings. Use ::disableStorage() instead.
+* MediaWikiServices::getConfiguredReadOnlyMode(), deprecated in 1.41 now
+  emits deprecation warnings. Use ::getReadOnlyMode() service together
+  with ::getConfiguredReason() and ::isConfiguredReadOnly() to check
+  when a site is set to read-only mode.
+* OutputPage::wrapWikiTextAsInterface() has been deprecated.
+* Passing a string or UserIdentity object to DatabaseBlock::setTarget() or
+  the 'address' parameter to DatabaseBlock::__construct() is now deprecated
+  and will emit deprecation warnings. Use BlockTargetFactory to obtain a
+  BlockTarget to pass to the 'target' parameter of these functions, or use
+  DatabaseBlockStore::newUnsaved() or ::insertBlockWithParams(). (T385966)
+* Calling ApiOptions::__construct() without $userOptionsManager and
+  $preferencesFactory has been deprecated and emits deprecation warnings.
+  Code that extends ApiOptions should instead extend ApiOptionsBase.
+* ParserOutput::getWarnings() has been deprecated. Use ::getWarningMsgs()
+  instead.
+* ParserOutput::setLanguageLinks(), deprecated in 1.42, now emits deprecation
+  warnings.
+* OutputPage::setLanguageLinks(), deprecated in 1.43, now emits deprecation
+  warnings.
+* Calling RevisionStore methods with a LinkTarget emits deprecation warnings
+  now. It was already documented as deprecated since 1.36.
+  - RevisionStore::getFirstRevision
+  - RevisionStore::getRevisionByTimestamp
+  - RevisionStore::getRevisionByTitle
+* The MagicWordwgVariableIDsHook, deprecated in 1.35, now emits warnings in the
+  hook runner. Migrate to the GetMagicVariableIDsHook instead.
+* PageConfigFactory::create() is now deprecated; use
+  ::createFromParserOptions() instead.
+* Calling MessageCache::get with a Language object is now deprecated and emits
+  a deprecation warning.
+* …
+
+=== Other changes in 1.45 ===
+
+* Reading parser cache content using native PHP serialization has been
+  removed in this release.  JSON serialization was been the default
+  since 1.36, and the option to use native serialization was removed
+  in 1.39.  Upgrades from revision 1.38 and earlier with
+  $wgParserCacheUseJson=false should either clear the parser cache, or
+  upgrade to revision 1.36-1.44 with $wgParserCacheUseJson=true and
+  wait until the parser cache expiration time
+  ($wgParserCacheExpireTime) elapses before upgrading to this release.
+
+  <https://www.mediawiki.org/wiki/Manual:Parser_cache/Serialization_compatibility>
+
+* …
+
+== Compatibility ==
+
+MediaWiki 1.45 requires PHP 8.1.0 or later and the following PHP extensions:
+
+* ctype
+* dom
+* fileinfo
+* iconv
+* intl
+* json
+* mbstring
+* xml
+
+MariaDB is the recommended database software. MySQL, PostgreSQL, or SQLite can
+be used instead, but support for them is somewhat less mature.
+
+The supported versions are:
+
+* MariaDB 10.3 or higher
+* MySQL 5.7.0 or higher
+* PostgreSQL 10 or later
+* SQLite 3.31.0 or later
+
+== Online documentation ==
+Documentation for both end-users and site administrators is available on
+MediaWiki.org, and is covered under the GNU Free Documentation License (except
+for pages that explicitly state that their contents are in the public domain):
+
+  <https://www.mediawiki.org/wiki/Special:MyLanguage/Documentation>
+
+== Mailing list ==
+A mailing list is available for MediaWiki user support and discussion:
+
+  <https://lists.wikimedia.org/postorius/lists/mediawiki-l.lists.wikimedia.org/>
+
+A low-traffic announcements-only list is also available:
+
+  <https://lists.wikimedia.org/postorius/lists/mediawiki-announce.lists.wikimedia.org/>
+
+It's highly recommended that you sign up for one of these lists if you're
+going to run a public MediaWiki, so you can be notified of security fixes.
+
+== IRC help ==
+There's usually someone online in #mediawiki on irc.libera.chat.
